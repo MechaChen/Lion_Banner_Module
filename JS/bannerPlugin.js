@@ -11,20 +11,21 @@
   };
 
   var shadow = "3px 3px 3px #a3a3a3";
-  var skewAngle = "skew(10deg)";
+  var closeHeight = "translateY(-300px)";
+  var transSecond = "2s";
 
   // 被選到的元素可執行的函式
   Module.prototype.addShadow = function() {
-    // console.log("this is a prototype func!!");
     this.$ele.css("boxShadow", shadow);
   };
-  Module.prototype.skew = function() {
-    this.$ele.css("transform", skewAngle);
+  Module.prototype.close = function() {
+    this.$ele.addClass("close");
+    this.$ele.css("transition", transSecond);
+    setTimeout(changeHeight.bind(this, closeHeight), 3000);
   };
 
   $.fn[ModuleName] = function(methods, options) {
     return this.each(function(index, el) {
-      // $(el).css("boxShadow", shadow);
       var opts = $.extend(
         {},
         typeof methods == "object" && methods,
@@ -33,9 +34,13 @@
       var module = new Module(el, opts);
       // 將每個元素帶入函式
       module.addShadow();
-      module.skew();
+      module.close();
     });
   };
+
+  function changeHeight(height) {
+    this.$ele.find(".img").css("transform", height);
+  }
 })(jQuery);
 
 $(function() {

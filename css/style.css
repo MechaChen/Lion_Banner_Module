@@ -11,6 +11,10 @@ body {
   text-align: center;
 }
 
+.banner.close {
+  height: 80px;
+}
+
 .btn {
   position: absolute;
   right: 0;
@@ -20,7 +24,10 @@ body {
   color: #a3a3a3;
   background-color: rgba(0, 0, 0, 0.8);
   border-radius: 3px 0 0 0;
-  user-select: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
   cursor: pointer;
 }
 
@@ -42,3 +49,4 @@ body {
 .btn:hover::after {
   border-color: transparent transparent #fff;
 }
+/*# sourceMappingURL=style.css.map */
