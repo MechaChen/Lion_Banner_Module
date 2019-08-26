@@ -38,7 +38,15 @@
   // 被選到的元素可執行的函式
   Module.prototype.defaultSetting = function() {
     var btnOpts = this.options.button;
-    this.$ele.find(`.${btnOpts.class}`).text(btnOpts.closeText);
+    var btn = this.$ele.find(`.${btnOpts.class}`);
+
+    if (this.options.openAtStart) {
+      btn.text(btnOpts.closeText);
+    } else {
+      this.$ele.addClass("close");
+      changeHeight.call(this, closeHeight);
+      btn.text(btnOpts.openText);
+    }
   };
   Module.prototype.addShadow = function() {
     this.$ele.css("boxShadow", shadow);
@@ -71,10 +79,9 @@
   };
 
   function bannerAnima() {
-    // variables
     var btnOpts = this.options.button;
     var btn = this.$ele.find(`.${btnOpts.class}`);
-    // functions
+
     this.$ele.toggleClass("close");
     this.$ele.css("transition", transSecond);
     if (btn.text() == btnOpts.closeText) {
@@ -94,10 +101,11 @@
 $(function() {
   $(".banner")
     .banner({
+      openAtStart: false,
       autoToggle: false,
       button: {
-        closeText: "收起來",
-        openText: "展開來",
+        closeText: "OPEN!",
+        openText: "CLOSE",
         class: "btn"
       }
     })
