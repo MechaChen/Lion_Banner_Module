@@ -47,7 +47,11 @@
     var btnOpts = this.options.button;
     this.$ele.find(`.${btnOpts.class}`).click(bannerAnima.bind(this));
   };
+  Module.prototype.autoToggle = function() {
+    if (this.options.autoToggle) setInterval(bannerAnima.bind(this), 3000);
+  };
 
+  // 啟動設定
   $.fn[ModuleName] = function(methods, options) {
     return this.each(function(index, el) {
       var opts = $.extend(
@@ -62,6 +66,7 @@
       module.defaultSetting();
       module.addShadow();
       module.toggleBanner();
+      module.autoToggle();
     });
   };
 
@@ -89,9 +94,10 @@
 $(function() {
   $(".banner")
     .banner({
+      autoToggle: false,
       button: {
-        closeText: "CLOSE",
-        openText: "OPEN",
+        closeText: "收起來",
+        openText: "展開來",
         class: "btn"
       }
     })
