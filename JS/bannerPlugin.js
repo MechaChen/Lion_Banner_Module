@@ -16,19 +16,36 @@
   var transSecond = "2s";
 
   Module.DEFAULTS = {
+    openAtStart: true,
+    autoToggle: true,
     button: {
       closeText: "收合",
       openText: "展開",
       class: "btn"
+    },
+    class: {
+      closed: "closed",
+      closing: "closing",
+      opened: "opened",
+      opening: "opening"
+    },
+    transition: true,
+    whenTransition: function() {
+      console.log("whenTransition");
     }
   };
 
   // 被選到的元素可執行的函式
+  Module.prototype.defaultSetting = function() {
+    var btnOpts = this.options.button;
+    this.$ele.find(`.${btnOpts.class}`).text(btnOpts.closeText);
+  };
   Module.prototype.addShadow = function() {
     this.$ele.css("boxShadow", shadow);
   };
-  Module.prototype.close = function() {
-    this.$ele.find(".btn").click(toggleBanner.bind(this));
+  Module.prototype.toggleBanner = function() {
+    var btnOpts = this.options.button;
+    this.$ele.find(`.${btnOpts.class}`).click(bannerAnima.bind(this));
   };
 
   $.fn[ModuleName] = function(methods, options) {
@@ -42,19 +59,20 @@
       console.log(opts);
       var module = new Module(el, opts);
       // 將每個元素帶入函式
+      module.defaultSetting();
       module.addShadow();
-      module.close();
+      module.toggleBanner();
     });
   };
 
-  function toggleBanner() {
+  function bannerAnima() {
     // variables
-    var btn = this.$ele.find(".btn");
     var btnOpts = this.options.button;
+    var btn = this.$ele.find(`.${btnOpts.class}`);
     // functions
     this.$ele.toggleClass("close");
     this.$ele.css("transition", transSecond);
-    if (btn.text() == "收合") {
+    if (btn.text() == btnOpts.closeText) {
       btn.text(btnOpts.openText);
       setTimeout(changeHeight.bind(this, closeHeight), 2000);
     } else {
@@ -70,6 +88,12 @@
 
 $(function() {
   $(".banner")
-    .banner()
+    .banner({
+      button: {
+        closeText: "CLOSE",
+        openText: "OPEN",
+        class: "btn"
+      }
+    })
     .addClass("test_class");
 });
