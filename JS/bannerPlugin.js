@@ -15,6 +15,14 @@
   var openHeight = "translateY(0px)";
   var transSecond = "2s";
 
+  Module.DEFAULTS = {
+    button: {
+      closeText: "收合",
+      openText: "展開",
+      class: "btn"
+    }
+  };
+
   // 被選到的元素可執行的函式
   Module.prototype.addShadow = function() {
     this.$ele.css("boxShadow", shadow);
@@ -27,9 +35,11 @@
     return this.each(function(index, el) {
       var opts = $.extend(
         {},
+        Module.DEFAULTS,
         typeof methods == "object" && methods,
         typeof options == "object" && options
       );
+      console.log(opts);
       var module = new Module(el, opts);
       // 將每個元素帶入函式
       module.addShadow();
@@ -38,13 +48,17 @@
   };
 
   function toggleBanner() {
+    // variables
+    var btn = this.$ele.find(".btn");
+    var btnOpts = this.options.button;
+    // functions
     this.$ele.toggleClass("close");
     this.$ele.css("transition", transSecond);
-    if (this.$ele.find(".btn").text() == "收合") {
-      this.$ele.find(".btn").text("展開");
+    if (btn.text() == "收合") {
+      btn.text(btnOpts.openText);
       setTimeout(changeHeight.bind(this, closeHeight), 2000);
     } else {
-      this.$ele.find(".btn").text("收合");
+      btn.text(btnOpts.closeText);
       changeHeight.call(this, openHeight);
     }
   }
