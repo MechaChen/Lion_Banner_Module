@@ -82,11 +82,16 @@
     var btnOpts = this.options.button;
     var btn = this.$ele.find(`.${btnOpts.class}`);
 
+    if (this.options.transition) this.$ele.css("transition", transSecond);
+
     this.$ele.toggleClass("close");
-    this.$ele.css("transition", transSecond);
     if (btn.text() == btnOpts.closeText) {
       btn.text(btnOpts.openText);
-      setTimeout(changeHeight.bind(this, closeHeight), 2000);
+      if (this.options.transition) {
+        setTimeout(changeHeight.bind(this, closeHeight), 2000);
+      } else {
+        changeHeight.call(this, closeHeight);
+      }
     } else {
       btn.text(btnOpts.closeText);
       changeHeight.call(this, openHeight);
@@ -107,7 +112,8 @@ $(function() {
         closeText: "OPEN!",
         openText: "CLOSE",
         class: "btn"
-      }
+      },
+      transition: false
     })
     .addClass("test_class");
 });
