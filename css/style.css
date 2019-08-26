@@ -11,11 +11,7 @@ body {
   text-align: center;
 }
 
-.banner.close {
-  height: 80px;
-}
-
-.btn {
+.banner .btn {
   position: absolute;
   right: 0;
   bottom: 0;
@@ -31,7 +27,7 @@ body {
   cursor: pointer;
 }
 
-.btn::after {
+.banner .btn::after {
   content: "";
   display: inline-block;
   width: 0;
@@ -42,11 +38,20 @@ body {
   border-color: transparent transparent #a3a3a3;
 }
 
-.btn:hover {
+.banner .btn:hover {
   color: #fff;
 }
 
-.btn:hover::after {
+.banner .btn:hover::after {
   border-color: transparent transparent #fff;
+}
+
+.banner.close {
+  height: 80px;
+}
+
+.banner.close .btn::after {
+  border-width: 3px 3px 0;
+  border-color: #fff transparent transparent;
 }
 /*# sourceMappingURL=style.css.map */

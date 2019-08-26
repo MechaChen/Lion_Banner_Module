@@ -21,9 +21,6 @@
   };
   Module.prototype.close = function() {
     this.$ele.find(".btn").click(toggleBanner.bind(this));
-    // this.$ele.addClass("close");
-    // this.$ele.css("transition", transSecond);
-    // setTimeout(changeHeight.bind(this, closeHeight), 3000);
   };
 
   $.fn[ModuleName] = function(methods, options) {
@@ -48,7 +45,7 @@
       setTimeout(changeHeight.bind(this, closeHeight), 2000);
     } else {
       this.$ele.find(".btn").text("收合");
-      this.$ele.find(".img").css("transform", openHeight);
+      changeHeight.call(this, openHeight);
     }
   }
 
