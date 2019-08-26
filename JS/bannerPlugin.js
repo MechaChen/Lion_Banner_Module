@@ -12,6 +12,7 @@
 
   var shadow = "3px 3px 3px #a3a3a3";
   var closeHeight = "translateY(-300px)";
+  var openHeight = "translateY(0px)";
   var transSecond = "2s";
 
   // 被選到的元素可執行的函式
@@ -19,9 +20,10 @@
     this.$ele.css("boxShadow", shadow);
   };
   Module.prototype.close = function() {
-    this.$ele.addClass("close");
-    this.$ele.css("transition", transSecond);
-    setTimeout(changeHeight.bind(this, closeHeight), 3000);
+    this.$ele.find(".btn").click(toggleBanner.bind(this));
+    // this.$ele.addClass("close");
+    // this.$ele.css("transition", transSecond);
+    // setTimeout(changeHeight.bind(this, closeHeight), 3000);
   };
 
   $.fn[ModuleName] = function(methods, options) {
@@ -37,6 +39,18 @@
       module.close();
     });
   };
+
+  function toggleBanner() {
+    this.$ele.toggleClass("close");
+    this.$ele.css("transition", transSecond);
+    if (this.$ele.find(".btn").text() == "收合") {
+      this.$ele.find(".btn").text("展開");
+      setTimeout(changeHeight.bind(this, closeHeight), 2000);
+    } else {
+      this.$ele.find(".btn").text("收合");
+      this.$ele.find(".img").css("transform", openHeight);
+    }
+  }
 
   function changeHeight(height) {
     this.$ele.find(".img").css("transform", height);
