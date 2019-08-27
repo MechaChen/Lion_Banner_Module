@@ -54,6 +54,7 @@
     this.$ele.css("boxShadow", shadow);
   };
   Module.prototype.toggleBanner = function() {
+    console.log(this);
     var btnOpts = this.options.button;
     this.$ele.find(`.${btnOpts.class}`).click(bannerAnima.bind(this));
   };
@@ -65,18 +66,53 @@
   // 啟動設定
   $.fn[ModuleName] = function(methods, options) {
     return this.each(function(index, el) {
-      var opts = $.extend(
-        {},
-        Module.DEFAULTS,
-        typeof methods == "object" && methods,
-        typeof options == "object" && options
-      );
-      var module = new Module(el, opts);
-      // 將每個元素帶入函式
-      module.defaultSetting();
-      module.addShadow();
-      module.toggleBanner();
-      module.autoToggle();
+      var $this = $(this);
+      var module = $this.data(ModuleName);
+      console.log(module);
+      var opts = Module.DEFAULTS;
+      if (module) {
+        if (typeof methods === "string" && typeof options === "undefined") {
+          if (methods === "toggle") {
+            bannerAnima.call(module);
+          } else if (methods === "open") {
+            if (!/opened/.test($this.attr("class"))) {
+              console.log(!/opened/.test($this.attr("class")));
+              bannerAnima.call(module);
+            }
+          } else if (methods === "close") {
+            if (!/closed/.test($this.attr("class"))) {
+              console.log(!/closed/.test($this.attr("class")));
+              bannerAnima.call(module);
+            }
+          } else {
+            console.log("Unsupported Options!");
+            throw "Unsupported Options";
+          }
+        } else if (
+          typeof methods === "string" &&
+          typeof options === "undefined"
+        ) {
+          console.log("暫時沒有定義");
+        } else {
+          console.log("Unsupported Options!");
+          throw "Unsupported Options";
+        }
+      } else {
+        opts = $.extend(
+          {},
+          Module.DEFAULTS,
+          typeof methods == "object" && methods,
+          typeof options == "object" && options
+        );
+        module = new Module(el, opts);
+        $this.data(ModuleName, module);
+        console.log($this.data(ModuleName, module));
+        // 將每個元素帶入函式
+        module.defaultSetting();
+        module.addShadow();
+        module.toggleBanner();
+        module.autoToggle();
+      }
     });
   };
 
@@ -108,6 +144,7 @@
             2000
           );
         } else {
+          controlClass.call(this, classStates.closed);
           changeImgHeight.call(this, closeHeight);
         }
       } else {
@@ -124,6 +161,7 @@
             2000
           );
         } else {
+          console.log("~OPEN~");
           controlClass.call(this, classStates.opened);
         }
       }
@@ -148,8 +186,8 @@
 $(function() {
   $(".banner")
     .banner({
-      openAtStart: true,
-      autoToggle: 5000,
+      openAtStart: false,
+      autoToggle: false,
       button: {
         closeText: "展開",
         openText: "收合",
