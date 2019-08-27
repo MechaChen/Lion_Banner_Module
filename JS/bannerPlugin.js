@@ -45,7 +45,7 @@
       btn.text(btnOpts.closeText);
     } else {
       this.$ele.addClass(classStates.closed);
-      changeHeight.call(this, closeHeight);
+      changeImgHeight.call(this, closeHeight);
       btn.text(btnOpts.openText);
     }
   };
@@ -83,50 +83,62 @@
     var btn = this.$ele.find(`.${btnOpts.class}`);
     var isTransition = this.options.transition;
     var classStates = this.options.class;
-    var allClassesArray = [];
-    for (var prop in classStates) allClassesArray.push(prop);
-    var allClasses = allClassesArray.join(" ");
-    console.log(allClasses);
+    var whenTransition = this.options.whenTransition;
 
     if (isTransition) this.$ele.css("transition", transSecond);
 
-    this.$ele.toggleClass(classStates.closed);
-    if (btn.text() == btnOpts.closeText) {
-      btn.text(btnOpts.openText);
-      if (isTransition) {
-        this.$ele.removeClass(allClasses);
-        this.$ele.addClass("closing");
-        setTimeout(changeHeight.bind(this, closeHeight), 2000);
-        setTimeout(
-          function() {
-            this.$ele.removeClass(allClasses);
-            this.$ele.addClass("closed");
-          }.bind(this),
-          2000
-        );
+    // 判斷 class 是否在已完成的狀態，ex : opened、closed
+    if (/opened|closed/.test(this.$ele.attr("class"))) {
+      this.$ele.toggleClass(classStates.closed);
+      // 利用按鈕文字決定是否展開或收合
+      if (btn.text() == btnOpts.closeText) {
+        btn.text(btnOpts.openText);
+        // 檢查是否有 transition
+        if (isTransition) {
+          classControl.call(this, classStates.closing);
+          var timer = setInterval(whenTransition, 2000 / 30);
+          setTimeout(
+            function() {
+              changeImgHeight.call(this, closeHeight);
+              classControl.call(this, classStates.closed);
+              clearInterval(timer);
+            }.bind(this),
+            2000
+          );
+        } else {
+          changeImgHeight.call(this, closeHeight);
+        }
       } else {
-        changeHeight.call(this, closeHeight);
-      }
-    } else {
-      btn.text(btnOpts.closeText);
-      changeHeight.call(this, openHeight);
-      if (isTransition) {
-        this.$ele.removeClass(allClasses);
-        this.$ele.addClass("opening");
-        setTimeout(
-          function() {
-            this.$ele.removeClass(allClasses);
-            this.$ele.addClass("opened");
-          }.bind(this),
-          2000
-        );
-      } else {
+        btn.text(btnOpts.closeText);
+        changeImgHeight.call(this, openHeight);
+        if (isTransition) {
+          classControl.call(this, classStates.opening);
+          var timer = setInterval(whenTransition, 2000 / 30);
+          setTimeout(
+            function() {
+              classControl.call(this, classStates.opened);
+              clearInterval(timer);
+            }.bind(this),
+            2000
+          );
+        } else {
+        }
       }
     }
   }
 
-  function changeHeight(height) {
+  function changeImgHeight(height) {
     this.$ele.find(".img").css("transform", height);
+  }
+
+  function classControl(className) {
+    var classStates = this.options.class;
+    var allClassesArray = [];
+    for (var prop in classStates) allClassesArray.push(prop);
+    var allClasses = allClassesArray.join(" ");
+
+    this.$ele.removeClass(allClasses);
+    this.$ele.addClass(className);
   }
 })(jQuery);
 
