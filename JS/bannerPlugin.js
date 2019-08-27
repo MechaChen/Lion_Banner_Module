@@ -189,10 +189,10 @@ $(function() {
   $(".banner")
     .banner({
       openAtStart: true,
-      autoToggle: false,
+      autoToggle: 2000,
       button: {
-        closeText: "展開",
-        openText: "收合",
+        closeText: "CLOSE",
+        openText: "OPEN",
         class: "BTN"
       },
       transition: true
