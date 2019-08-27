@@ -43,6 +43,7 @@
 
     if (this.options.openAtStart) {
       btn.text(btnOpts.closeText);
+      this.$ele.addClass(classStates.opened);
     } else {
       this.$ele.addClass(classStates.closed);
       changeImgHeight.call(this, closeHeight);
@@ -95,12 +96,12 @@
         btn.text(btnOpts.openText);
         // 檢查是否有 transition
         if (isTransition) {
-          classControl.call(this, classStates.closing);
+          controlClass.call(this, classStates.closing);
           var timer = setInterval(whenTransition, 2000 / 30);
           setTimeout(
             function() {
               changeImgHeight.call(this, closeHeight);
-              classControl.call(this, classStates.closed);
+              controlClass.call(this, classStates.closed);
               clearInterval(timer);
             }.bind(this),
             2000
@@ -112,16 +113,17 @@
         btn.text(btnOpts.closeText);
         changeImgHeight.call(this, openHeight);
         if (isTransition) {
-          classControl.call(this, classStates.opening);
+          controlClass.call(this, classStates.opening);
           var timer = setInterval(whenTransition, 2000 / 30);
           setTimeout(
             function() {
-              classControl.call(this, classStates.opened);
+              controlClass.call(this, classStates.opened);
               clearInterval(timer);
             }.bind(this),
             2000
           );
         } else {
+          controlClass.call(this, classStates.opened);
         }
       }
     }
@@ -131,7 +133,7 @@
     this.$ele.find(".img").css("transform", height);
   }
 
-  function classControl(className) {
+  function controlClass(className) {
     var classStates = this.options.class;
     var allClassesArray = [];
     for (var prop in classStates) allClassesArray.push(prop);
@@ -145,14 +147,14 @@
 $(function() {
   $(".banner")
     .banner({
-      openAtStart: false,
+      openAtStart: true,
       autoToggle: false,
       button: {
         closeText: "CLOSE",
         openText: "OPEN!",
         class: "btn"
       },
-      transition: true
+      transition: false
     })
     .addClass("test_class");
 });
