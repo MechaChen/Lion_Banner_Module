@@ -10,6 +10,7 @@
     this.options = options;
   };
 
+  // 預設值
   Module.DEFAULTS = {
     openAtStart: true,
     autoToggle: true,
@@ -50,9 +51,6 @@
       btn.text(btnOpts.openText);
     }
   };
-  Module.prototype.addShadow = function() {
-    this.$ele.css("boxShadow", shadow);
-  };
   Module.prototype.toggleBanner = function() {
     console.log(this);
     var btnOpts = this.options.button;
@@ -76,12 +74,10 @@
             bannerAnima.call(module);
           } else if (methods === "open") {
             if (!/opened/.test($this.attr("class"))) {
-              console.log(!/opened/.test($this.attr("class")));
               bannerAnima.call(module);
             }
           } else if (methods === "close") {
             if (!/closed/.test($this.attr("class"))) {
-              console.log(!/closed/.test($this.attr("class")));
               bannerAnima.call(module);
             }
           } else {
@@ -106,10 +102,8 @@
         );
         module = new Module(el, opts);
         $this.data(ModuleName, module);
-        console.log($this.data(ModuleName, module));
         // 將每個元素帶入函式
         module.defaultSetting();
-        module.addShadow();
         module.toggleBanner();
         module.autoToggle();
       }
@@ -133,8 +127,14 @@
         btn.text(btnOpts.openText);
         // 檢查是否有 transition
         if (isTransition) {
+          // 更改 class 名稱為 closing
           controlClass.call(this, classStates.closing);
+          // 設定計時器
           var timer = setInterval(whenTransition, 2000 / 30);
+          // 兩秒後，
+          // 1. 改圖高度
+          // 2.class 名稱改 closed
+          // 3.清除計時器
           setTimeout(
             function() {
               changeImgHeight.call(this, closeHeight);
@@ -144,6 +144,9 @@
             2000
           );
         } else {
+          // 立即將
+          // 1. class 改為 closed
+          // 2. 圖片高度下降
           controlClass.call(this, classStates.closed);
           changeImgHeight.call(this, closeHeight);
         }
@@ -186,7 +189,7 @@
 $(function() {
   $(".banner")
     .banner({
-      openAtStart: false,
+      openAtStart: true,
       autoToggle: false,
       button: {
         closeText: "展開",
