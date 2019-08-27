@@ -30,7 +30,7 @@
     }
   };
 
-  var shadow = "3px 3px 3px #a3a3a3";
+  var shadow = "0px 0px 8px #000";
   var closeHeight = "translateY(-300px)";
   var openHeight = "translateY(0px)";
   var transSecond = "2s";
@@ -58,7 +58,8 @@
     this.$ele.find(`.${btnOpts.class}`).click(bannerAnima.bind(this));
   };
   Module.prototype.autoToggle = function() {
-    if (this.options.autoToggle) setInterval(bannerAnima.bind(this), 3000);
+    var autoToggle = this.options.autoToggle;
+    if (autoToggle) setInterval(bannerAnima.bind(this), autoToggle || 3000);
   };
 
   // 啟動設定
@@ -148,13 +149,13 @@ $(function() {
   $(".banner")
     .banner({
       openAtStart: true,
-      autoToggle: false,
+      autoToggle: 5000,
       button: {
-        closeText: "CLOSE",
-        openText: "OPEN!",
+        closeText: "展開",
+        openText: "收合",
         class: "btn"
       },
-      transition: false
+      transition: true
     })
     .addClass("test_class");
 });
