@@ -39,6 +39,7 @@
   // 被選到的元素可執行的函式
   Module.prototype.defaultSetting = function() {
     var btnOpts = this.options.button;
+    this.$ele.find(".btn").addClass(btnOpts.class);
     var btn = this.$ele.find(`.${btnOpts.class}`);
     var classStates = this.options.class;
 
@@ -192,7 +193,7 @@ $(function() {
       button: {
         closeText: "展開",
         openText: "收合",
-        class: "btn"
+        class: "BTN"
       },
       transition: true
     })
