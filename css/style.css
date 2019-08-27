@@ -47,16 +47,12 @@ body {
   border-color: transparent transparent #fff;
 }
 
-.banner.closed {
+.banner.closed, .banner.closing {
   height: 80px;
 }
 
-.banner.closed .btn::after {
+.banner.closed .btn::after, .banner.closing .btn::after {
   border-width: 3px 3px 0;
   border-color: #fff transparent transparent;
-}
-
-.banner.closing {
-  height: 80px;
 }
 /*# sourceMappingURL=style.css.map */

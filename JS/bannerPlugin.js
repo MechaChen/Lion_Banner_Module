@@ -52,7 +52,6 @@
     }
   };
   Module.prototype.toggleBanner = function() {
-    console.log(this);
     var btnOpts = this.options.button;
     this.$ele.find(`.${btnOpts.class}`).click(bannerAnima.bind(this));
   };
@@ -66,7 +65,6 @@
     return this.each(function(index, el) {
       var $this = $(this);
       var module = $this.data(ModuleName);
-      console.log(module);
       var opts = Module.DEFAULTS;
       if (module) {
         if (typeof methods === "string" && typeof options === "undefined") {
