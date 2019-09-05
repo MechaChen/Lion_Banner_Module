@@ -58,7 +58,12 @@
   };
   Module.prototype.autoToggle = function() {
     var autoToggle = this.options.autoToggle;
-    if (autoToggle) setInterval(bannerAnima.bind(this), autoToggle || 3000);
+    if (autoToggle) {
+      var timer = setInterval(bannerAnima.bind(this), autoToggle || 3000);
+      setTimeout(function() {
+        clearInterval(timer);
+      }, 3000);
+    }
   };
 
   // 啟動設定
@@ -186,16 +191,15 @@
 })(jQuery);
 
 $(function() {
-  $(".banner")
-    .banner({
-      openAtStart: true,
-      autoToggle: 2000,
-      button: {
-        closeText: "CLOSE",
-        openText: "OPEN",
-        class: "BTN"
-      },
-      transition: true
-    })
-    .addClass("test_class");
+  $(".banner").banner({
+    openAtStart: true,
+    autoToggle: 2000,
+    button: {
+      closeText: "CLOSE",
+      openText: "OPEN",
+      class: "BTN"
+    },
+    transition: false
+  });
+  // .addClass("test_class");
 });
